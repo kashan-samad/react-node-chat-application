@@ -1,0 +1,26 @@
+{
+  "name": "react-node-chat-application",
+  "version": "1.0.0",
+  "description": "A chat application composed of a React.js web application and NodeJS API backend.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kashan-samad/react-node-chat-application.git"
+  },
+  "author": "Kashan Samad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kashan-samad/react-node-chat-application/issues"
+  },
+  "homepage": "https://github.com/kashan-samad/react-node-chat-application#readme",
+  "dependencies": {
+    "async": "^2.5.0",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "mongodb": "^2.2.31",
+    "socket.io": "^2.0.3"
+  }
+}
