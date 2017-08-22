@@ -17,6 +17,8 @@ module.exports = function(app) {
 
   app.use('/api/users', require('./controllers/users'));
   app.use('/api/friends', require('./controllers/friends'));
+  app.use('/api/groups', require('./controllers/groups'));
+  app.use('/api/messages', require('./controllers/messages'));
 
   app.use(function (req, res, next) {
     // Check Error
@@ -53,6 +55,10 @@ module.exports = function(app) {
         case 409:
           res.errorDevMessage = 'INCORRECT_USERNAME_OR_PASSWORD';
           res.errorMessage = 'Incorrect Username or Password';
+          break;
+        case 410:
+          res.errorDevMessage = 'RECORD_ALREADY_EXIST';
+          res.errorMessage = 'Record Exists Already';
           break;
       }
       // Prepare Output Data

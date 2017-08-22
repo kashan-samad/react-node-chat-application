@@ -24,7 +24,7 @@ exports.add = function(req, res, next) {
     }
     if (item) {
       // Set Response
-      res.error = 432;
+      res.error = 410;
       return next(null, res);
     }
     record.password = record.password; //create hash
@@ -146,9 +146,9 @@ exports.detail = function(req, res, next) {
   }
   var record = req.params;
   if (!record._id) {
-	// Set Response
-	res.error = 401;
-	return next(null, res);
+    // Set Response
+    res.error = 401;
+    return next(null, res);
   }
   // DB Query
   User.findById(record._id, function (err, item) {
@@ -185,14 +185,14 @@ exports.update = function(req, res, next) {
   // Get Params
   var record = req.params;
   if (!record._id) {
-	// Set Response
-	res.error = 401;
-	return next(null, res);
+    // Set Response
+    res.error = 401;
+    return next(null, res);
   }
   if (user._id.toString() !== record._id.toString()) {
-	// Set Response
-	res.error = 405;
-	return next(null, res);
+    // Set Response
+    res.error = 405;
+    return next(null, res);
   }
   // Get Body Params
   var record = req.body;
@@ -204,7 +204,7 @@ exports.update = function(req, res, next) {
       res.error = 407;
       return next(null, res);
     }
-	User.find(record, function (err, item) {
+    User.find(record, function (err, item) {
       // Check DB Error
       if (err) {
         // Set Response
@@ -220,10 +220,6 @@ exports.update = function(req, res, next) {
 };
 
 exports.list = function(req, res, next) {
-  var url = require('url');
-  var url_parts = url.parse(req.url, true);
-  var query = url_parts.query;
-  var accessToken = req.query.accessToken; 
   // If Response already set, goto next call
   if (res.error || res.data) {
     return next(null, res);
