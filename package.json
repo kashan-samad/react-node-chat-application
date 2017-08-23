@@ -1,26 +1,30 @@
 {
-  "name": "react-node-chat-application",
+  "name": "chat-app",
   "version": "1.0.0",
-  "description": "A chat application composed of a React.js web application and NodeJS API backend.",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kashan-samad/react-node-chat-application.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server"
   },
   "author": "Kashan Samad",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kashan-samad/react-node-chat-application/issues"
-  },
-  "homepage": "https://github.com/kashan-samad/react-node-chat-application#readme",
   "dependencies": {
-    "async": "^2.5.0",
     "body-parser": "^1.17.2",
-    "express": "^4.15.4",
+    "bootstrap": "^3.3.7",
+    "faker": "^4.1.0",
     "mongodb": "^2.2.31",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-react": "^6.24.1",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
   }
 }
