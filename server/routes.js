@@ -15,6 +15,7 @@ module.exports = function(app) {
     return next(null, res);
   });
 
+  app.use('/import', require('./import-data'));
   app.use('/api/users', require('./controllers/users'));
   app.use('/api/friends', require('./controllers/friends'));
   app.use('/api/groups', require('./controllers/groups'));

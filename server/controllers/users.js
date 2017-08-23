@@ -189,6 +189,8 @@ exports.update = function(req, res, next) {
     res.error = 401;
     return next(null, res);
   }
+  console.log (user._id);
+  console.log (record);
   if (user._id.toString() !== record._id.toString()) {
     // Set Response
     res.error = 405;
@@ -240,6 +242,7 @@ exports.list = function(req, res, next) {
     }
     // Set Response
     res.error = false;
+    result = {count: result.length, results: result};
     res.data = result;
     return next(null, res);
   });

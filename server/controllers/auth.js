@@ -61,7 +61,7 @@ exports.isAuthorized = function(req, res, next) {
     }
     // Check User
     if (!user) {
-      res.error = 403;
+      res.error = 405;
       return next(null, res);
     }
     // Check User Role

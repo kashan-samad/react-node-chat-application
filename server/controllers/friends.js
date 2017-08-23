@@ -253,19 +253,36 @@ exports.list = function(req, res, next) {
     res.error = 403;
     return next(null, res);
   }
-  // DB Query
-  User.all(function (err, result) {
-    // Check DB Error
-    if (err) {
-      // Set Response
-      res.error = 407;
-      return next(null, res);
-    }
+  var user = res.user;
+  friendFound = false;
+  friends = '';
+  friendsArray = [];
+  if (user.friends) {
+    user.friends.forEach(function(f) {
+      friendsArray.push(f.status === undefined ? f : f.id);
+    });
+  }
+  if (friendsArray.length) {
+    // DB Query
+    User.findIn(friendsArray, function (err, result) {
+        // Check DB Error
+        if (err) {
+          // Set Response
+          res.error = 407;
+          return next(null, res);
+        }
+        // Set Response
+        res.error = false;
+        res.data = result;
+        return next(null, res);
+    });
+  }
+  else {
     // Set Response
     res.error = false;
-    res.data = result;
+    res.data = null;
     return next(null, res);
-  });
+  }
 };
 
 module.exports = function() {
