@@ -5,7 +5,7 @@ function LogoutButton(props) {
   return (
     <div className="col-sm-3 col-xs-3 heading-avatar">
       <div className="heading-avatar-icon">
-        <button onClick={props.onClick}>
+        <button className="btn btn-primary" onClick={props.onClick}>
           Logout
         </button>
       </div>

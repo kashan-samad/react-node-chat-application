@@ -9,33 +9,6 @@ function renderIf(condition, content) {
   }
 }
 
-function UpdateButton(props) {
-  return (
-    <button onClick={props.onClick}>
-      Update
-    </button>
-  );
-}
-
-function RenderUserDetail(props) {
-  console.log (props);
-  return (
-    <div className="UserDetail">
-      <UserDetails user={props.user} />
-    </div>
-  );
-}
-
-function UserDetails(props) {
-  return (
-    <div>
-      Name: <b>{props.user.name}</b>
-      <br />
-      Username: <i>{props.user.username}</i>
-    </div>
-  );
-}
-
 export default class EditUserDetail extends Component {
   constructor(props) {
     super(props);
@@ -105,6 +78,7 @@ export default class EditUserDetail extends Component {
         //console.log ('Success');
         localStorage.setItem('name', responseJson.data.name);
         localStorage.setItem('username', responseJson.data.username);
+        this.props.onUpdate({showEdit: false});
         //this.props.onUpdate({showRegister: false});
       }
     })
@@ -115,17 +89,21 @@ export default class EditUserDetail extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Edit:</h1>
-        <div className="form-group">
-          <label>Name</label>
-          <input type="text" placeholder="Name" maxLength="50" value={this.state.name} onChange={this.handleNameChange} />
-        </div>
-        <div className="form-group">
-          <label>Username</label>
-          <input type="text" placeholder="Username" maxLength="50" value={this.state.username} onChange={this.handleUsernameChange} />
-        </div>
-        <UpdateButton onClick={this.handleUpdateButtonClick} />
+      <div className="row message">
+        <ul>
+          <br />
+          <h3>Edit Details</h3>
+          <br />
+          <div>
+            <div className="row message-body">
+              Name: <input type="text" placeholder="Name" maxLength="50" value={this.state.name} onChange={this.handleNameChange} />
+              <br /><br />
+              Username: <input type="text" placeholder="Username" maxLength="50" value={this.state.username} onChange={this.handleUsernameChange} />
+            </div>
+            <br />
+            <button className="btn btn-primary" onClick={() => { this.handleUpdateButtonClick()}}>Save</button>
+          </div>
+        </ul>
       </div>
     );
   }

@@ -4,10 +4,10 @@ import Config from '../Config.js';
 export default class ReplyBox extends Component {
   constructor(props) {
     super(props);
-    this.state = {text: '', friendId: ''};
+    this.state = {comments: '', friendId: ''};
 
     this.handleFriendIdChange = this.handleFriendIdChange.bind(this);
-    this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleCommentChange = this.handleCommentChange.bind(this);
     this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
   }
 
@@ -15,8 +15,8 @@ export default class ReplyBox extends Component {
     this.setState({friendId: event.target.value});
   }
 
-  handleTextChange(event) {
-    this.setState({text: event.target.value});
+  handleCommentChange(event) {
+    this.setState({comments: event.target.value});
   }
 
   handleSubmitButtonClick() {
@@ -28,7 +28,7 @@ export default class ReplyBox extends Component {
         'Auth': localStorage.getItem('accessToken')
       },
       body: JSON.stringify({
-        text: this.state.text
+        text: this.state.comments
       })
     })
     .then((response) => response.json())
@@ -39,9 +39,8 @@ export default class ReplyBox extends Component {
       }
       else {
         console.log (responseJson);
-        this.setState({text: ''});
-        console.log (this.state.text);
-        this.props.onUpdate({newConversation: true});
+        this.setState({comments: ''});
+        this.props.onUpdate({newConversation: responseJson.data, friendId: this.props.friendId});
         //console.log ('Success');
       }
     })
@@ -51,15 +50,15 @@ export default class ReplyBox extends Component {
   }
 
   render() {
-    console.log (!this.props.friendId);
-    var submitButton = this.props.friendId ? <button onClick={this.handleSubmitButtonClick}>Submit</button> : '';
+    var submitButton = this.state.comments ? <button className="btn btn-primary" onClick={this.handleSubmitButtonClick}>Submit</button> : <button className="btn btn-primary" onClick={this.handleSubmitButtonClick} disabled>Submit</button>;
+    var textComments = this.state.comments ? this.state.comments : '';
     return (
       <div className="row reply">
         <div className="col-sm-1 col-xs-1 reply-emojis">
           <i className="fa fa-smile-o fa-2x"></i>
         </div>
         <div className="col-sm-8 col-xs-8 reply-main">
-          <textarea className="form-control" rows="1" id="comment" onChange={this.handleTextChange}>{this.props.text}</textarea>
+          <textarea className="form-control" rows="1" id="comment"  value={this.state.comments} onChange={this.handleCommentChange} />
         </div>
         <div className="col-sm-2 col-xs-2 reply-recording">
           {submitButton}

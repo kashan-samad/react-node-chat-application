@@ -3,7 +3,7 @@ import Config from '../Config.js';
 
 function RegisterButton(props) {
   return (
-    <button onClick={props.onClick}>
+    <button className="btn btn-primary" onClick={props.onClick}>
       Register
     </button>
   );
@@ -20,13 +20,13 @@ function LoginLink(props) {
 export default class RegisterForm extends Component {
   constructor(props) {
     super(props);
-    this.handleRegisterButtonClick = this.handleRegisterButtonClick.bind(this);
-    this.handleLoginLinkClick = this.handleLoginLinkClick.bind(this);
-    this.state = {isLoggedIn: false, name: 'Kashan Samad', username: 'kashan.samad', password: '123'};
+    this.state = {isLoggedIn: false, name: 'Kashan Samad', username: 'kashan.samad', password: '123', errorMessage: ''};
 
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleRegisterButtonClick = this.handleRegisterButtonClick.bind(this);
+    this.handleLoginLinkClick = this.handleLoginLinkClick.bind(this);
   }
 
   handleNameChange(event) {
@@ -63,6 +63,7 @@ export default class RegisterForm extends Component {
       if (responseJson.error) {
         console.log (responseJson.data.developerMessage);
         console.log (responseJson);
+        this.setState({errorMessage: responseJson.data.message});
       }
       else {
         //console.log ('Success');
@@ -75,24 +76,26 @@ export default class RegisterForm extends Component {
   }
 
   render() {
+    var errorMessage = this.state.errorMessage ? <p className="alert-danger">{this.state.errorMessage}</p> : '';
     return (
-      <div>
-        <h1>Register:</h1>
-        <div className="form-group">
-          <label>Name</label>
-          <input type="text" placeholder="Name" maxLength="50" value={this.state.name} onChange={this.handleNameChange} />
+      <div className="container app">
+        <div className="row app-one">
+          <div className="col-md-3">
+            <h1>Register</h1>
+            {errorMessage}
+            <label>Name</label>
+            <input type="text" placeholder="Name" maxLength="50" value={this.state.name} onChange={this.handleNameChange} />
+            <br />
+            <label>Username</label>
+            <input type="text" placeholder="Username" maxLength="50" value={this.state.username} onChange={this.handleUsernameChange} />
+            <br />
+            <label>Password</label>
+            <input type="password" placeholder="Password" maxLength="50" value={this.state.password} onChange={this.handlePasswordChange} />
+            <RegisterButton onClick={this.handleRegisterButtonClick} />
+            <br />
+            <LoginLink onClick={this.handleLoginLinkClick} />
+          </div>
         </div>
-        <div className="form-group">
-          <label>Username</label>
-          <input type="text" placeholder="Username" maxLength="50" value={this.state.username} onChange={this.handleUsernameChange} />
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input type="password" placeholder="Password" maxLength="50" value={this.state.password} onChange={this.handlePasswordChange} />
-        </div>
-        <RegisterButton onClick={this.handleRegisterButtonClick} />
-        <br />
-        <LoginLink onClick={this.handleLoginLinkClick} />
       </div>
     );
   }

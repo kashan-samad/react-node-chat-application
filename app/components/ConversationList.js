@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Config from '../Config.js';
 
 function renderIf(condition, content) {
@@ -44,7 +45,9 @@ function RenderConversationSenderItem(props) {
 }
 
 function RenderConversations(props) {
-  var conversations = props.conversations.map(function(conversation) {
+  var count = 0;
+  var conversations = props.conversations.map(function(conversation, idx) {
+    //console.log (idx);
     if (conversation.createdBy.toString() !== localStorage.getItem('id').toString()) {
       return (
         <RenderConversationReceiverItem conversation={conversation} key={conversation._id} />
@@ -63,12 +66,47 @@ function RenderConversations(props) {
   );
 }
 
+function RenderConversation(props) {
+  if (props.conversation.createdBy.toString() !== localStorage.getItem('id').toString()) {
+    return (
+      <RenderConversationReceiverItem conversation={props.conversation} key={props.conversation._id} />
+    );
+  }
+  else {
+    return (
+      <RenderConversationSenderItem conversation={props.conversation} key={props.conversation._id} />
+    );
+  }
+}
+
+function RenderEmptyDiv() {
+  return (
+    <div ref={(el) => { this.messagesContainer = el; }} className="emptyDiv"></div>
+  );
+}
+
+var count = 0;
+
 export default class ConversationList extends Component {
   constructor(props) {
     super(props);
-    this.state = {friendId: '', conversationData: ''};
+    this.state = {friendId: '', conversationData: '', newConversation: '', previousKey: ''};
 
     this.handleLoadConcersations();
+  }
+
+  // dispatching an action based on state change
+  componentWillUpdate(nextProps, nextState) {
+    if (count === 3) {
+      if (nextProps.newConversation) {
+        this.state.conversationData.push(nextProps.newConversation);
+      }
+      if (nextState.open == true && this.state.open == false) {
+        this.props.onWillOpen();
+      }
+      count = 0;
+    }
+    count++;
   }
 
   handleLoadConcersations(friendId) {
@@ -89,8 +127,10 @@ export default class ConversationList extends Component {
       else {
         this.setState({conversationData: responseJson.data});
         this.setState({friendId: friendId});
-        //console.log ('Success');
-        //this.props.onUpdate({showRegister: false});
+        const node = ReactDOM.findDOMNode(this.messagesContainer);
+        if (node) {
+          node.scrollIntoView();
+        }
       }
     })
     .catch((error) => {
@@ -103,11 +143,10 @@ export default class ConversationList extends Component {
       this.handleLoadConcersations(this.props.friendId);
     }
     return (
-      <div className="row message" id="conversation">
+      <div className="row message" id="oo">
         {renderIf(this.state.conversationData, <RenderConversations conversations={this.state.conversationData} />)}
+                
+        <div ref={(el) => { this.messagesContainer = el; }} className="emptyDiv"></div>
       </div>
-    );
-  }
-}
-
-            
+    );    
+  }}

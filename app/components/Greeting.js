@@ -5,8 +5,13 @@ export default class Greeting extends Component {
     super(props);
   }
 
+  handleUserLinkClick(data) {
+    this.props.onUpdate({friendId: ''});
+  }
+
   render() {
-    var imageUri = localStorage.getItem('imageUri') || 'http://shurl.esy.es/y';
+    var defaultImage = '';
+    var imageUri = localStorage.getItem('imageUri') || defaultImage;
 
     return (
       <div className="row heading">
@@ -16,9 +21,9 @@ export default class Greeting extends Component {
             </div>
         </div>
         <div className="col-sm-8 col-xs-7 heading-name">
-            <a className="heading-name-meta">{localStorage.getItem('name')}
-            </a>
-            <span className="heading-online">Online</span>
+          <a onClick={() => { this.handleUserLinkClick()}} className="heading-name-meta">{localStorage.getItem('name')}
+          </a>
+          <span className="heading-online">Online</span>
         </div>
         <div className="col-sm-1 col-xs-1  heading-dot pull-right">
             <i className="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>

@@ -1,39 +1,16 @@
 import React, { Component } from 'react';
 import Config from '../Config.js';
 
-function renderIf(condition, content) {
-  if (condition) {
-    return content;
-  } else {
-    return null;
-  }
-}
-
-function RenderUserDetail(props) {
-  console.log (props);
-  return (
-    <div className="UserDetail">
-      <UserDetails user={props.user} />
-    </div>
-  );
-}
-
-function UserDetails(props) {
-  return (
-    <div>
-      Name: <b>{props.user.name}</b>
-      <br />
-      Username: <i>{props.user.username}</i>
-    </div>
-  );
-}
-
 export default class UserDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {userData: ''};
 
     this.handleLoadUser();
+  }
+
+  handleUserEditClick(data) {
+    this.props.onUpdate({showEdit: true});
   }
 
   handleLoadUser() {
@@ -62,9 +39,21 @@ export default class UserDetail extends Component {
 
   render() {
     return (
-      <div>
-        Details
-        {renderIf(this.state.userData, <RenderUserDetail user={this.state.userData} />)}
+      <div className="row message">
+        <ul>
+          <br />
+          <h3>Details</h3>
+          <br />
+          <div>
+            <div className="row message-body">
+              Name: <b>{this.state.userData.name}</b>
+              <br /><br />
+              Username: <i>{this.state.userData.username}</i>
+            </div>
+            <br />
+            <button className="btn btn-primary" onClick={() => { this.handleUserEditClick()}}>Edit</button>
+          </div>
+        </ul>
       </div>
     );
   }

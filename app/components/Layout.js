@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import LogoutLink from './LogoutLink.js';
+import UserDetail from './UserDetail.js';
+import EditUserDetail from './EditUserDetail.js';
 import FriendList from './FriendList.js';
 import Greeting from './Greeting.js';
 import SearchBox from './SearchBox.js';
 import ConversationList from './ConversationList.js';
 import ReplyBox from './ReplyBox.js';
 
+function renderIf(condition, content) {
+  if (condition) {
+    return content;
+  } else {
+    return null;
+  }
+}
+
 export default class Laayout extends Component {
   constructor(props) {
     super(props);
     var userObj = {id: localStorage.getItem('id'), name: localStorage.getItem('name'), username: localStorage.getItem('username'), accessToken: localStorage.getItem('accessToken')};
     var isLoggedIn = userObj.id ? true : false;
-    this.state = {isLoggedIn: isLoggedIn, friendId: ''};
+    this.state = {isLoggedIn: isLoggedIn, showEdit: false, friendId: '', newConversation: ''};
   }
 
   render() {
@@ -32,40 +42,13 @@ export default class Laayout extends Component {
               <SearchBox />
               <FriendList onUpdate={this.onUpdate.bind(this)} />
             </div>
-            <div className="side-two">
-              <div className="row newMessage-heading">
-                <div className="row newMessage-main">
-                  <div className="col-sm-2 col-xs-2 newMessage-back">
-                    <i className="fa fa-arrow-left" aria-hidden="true"></i>
-                  </div>
-                  <div className="col-sm-10 col-xs-10 newMessage-title">
-                    New Chat
-                  </div>
-                </div>
-              </div>
-              <div className="row composeBox">
-                <div className="col-sm-12 composeBox-inner">
-                  <div className="form-group has-feedback">
-                    <input id="composeText" type="text" className="form-control" name="searchText" placeholder="Search People" />
-                    <span className="glyphicon glyphicon-search form-control-feedback"></span>
-                  </div>
-                </div>
-              </div>
-              <div className="row compose-sideBar">
-                <div className="row sideBar-body">
-                  <div className="col-sm-3 col-xs-3 sideBar-avatar">
-                    <div className="avatar-icon">
-                      <img src="http://shurl.esy.es/y" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <div className="col-sm-8 conversation">
-            <Greeting />
-            <ConversationList friendId={this.state.friendId} />
-            <ReplyBox friendId={this.state.friendId} onUpdate={this.onUpdate.bind(this)} />
+            <Greeting onUpdate={this.onUpdate.bind(this)} />
+            {renderIf(this.state.isLoggedIn && !this.state.friendId && !this.state.showEdit, <UserDetail onUpdate={this.onUpdate.bind(this)} />)}
+            {renderIf(this.state.isLoggedIn && !this.state.friendId && this.state.showEdit, <EditUserDetail onUpdate={this.onUpdate.bind(this)} />)}
+            {renderIf(this.state.isLoggedIn && this.state.friendId, <ConversationList friendId={this.state.friendId} newConversation={this.state.newConversation} />)}
+            {renderIf(this.state.isLoggedIn && this.state.friendId, <ReplyBox friendId={this.state.friendId} onUpdate={this.onUpdate.bind(this)} />)}
           </div>
         </div>
       </div>
@@ -73,15 +56,18 @@ export default class Laayout extends Component {
   }
 
   onUpdate (data) {
-    if (data.isLoggedIn !== 'undefined') {
+    if (data.isLoggedIn !== undefined) {
       this.setState({ isLoggedIn: data.isLoggedIn });
+      this.props.onUpdate({isLoggedIn: data.isLoggedIn});
     }
-    if (data.friendId !== 'undefined') {
+    if (data.friendId !== undefined) {
       this.setState({ friendId: data.friendId });
     }
-    if (data.newConversation !== 'undefined') {
-      console.log ('---------------');
-      //this.setState({ friendId: data.friendId });
+    if (data.newConversation !== undefined) {
+      this.setState({ newConversation: data.newConversation });
+    }
+    if (data.showEdit !== undefined) {
+      this.setState({ showEdit: data.showEdit });
     }
   }
 }
