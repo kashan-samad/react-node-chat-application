@@ -1,6 +1,7 @@
 var Auth = require('./auth');
 var User = require('../models/user');
 var crypto = require('crypto');
+var faker = require('faker');
 
 exports.add = function(req, res, next) {
   // If Response already set, goto next call
@@ -14,6 +15,7 @@ exports.add = function(req, res, next) {
     res.error = 401;
     return next(null, res);
   }
+  record.password = crypto.createHash('sha1').update(record.password).digest('hex');
   // DB Query
   User.find(record, function (err, item) {
     // Check DB Error
@@ -29,6 +31,7 @@ exports.add = function(req, res, next) {
     }
     record.password = record.password; //create hash
     record.role = 'user';
+    record.imageUri = faker.image.image();
     record.accessToken = '';
     record.status = 1;
     // DB Query

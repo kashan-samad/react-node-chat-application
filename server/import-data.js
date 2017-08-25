@@ -45,7 +45,7 @@ exports.import = function(req, res, next) {
     }
     // Set Response
     res.error = false;
-    if (result.length > 10) {
+    //if (result.length > 10) {
       var results = [];
       var addRecords = 10;
       var counter = result.length;
@@ -77,10 +77,10 @@ exports.import = function(req, res, next) {
           }
         });
       }
-    }
-    else {
-      return next(null, res);
-    }
+    //}
+    //else {
+    //  return next(null, res);
+    //}
   });
 };
 
