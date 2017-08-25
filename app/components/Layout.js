@@ -29,7 +29,7 @@ export default class Laayout extends Component {
     super(props);
     var userObj = {id: localStorage.getItem('id'), name: localStorage.getItem('name'), username: localStorage.getItem('username'), accessToken: localStorage.getItem('accessToken')};
     var isLoggedIn = userObj.id ? true : false;
-    this.state = {isLoggedIn: isLoggedIn, showEdit: false, friendId: '', newConversation: '', messages: '', friendSearch: '', newFriends: ''};
+    this.state = {isLoggedIn: isLoggedIn, showEdit: false, friendId: '', newConversation: '', messages: '', friendSearch: '', newFriends: '', newFriend: false};
     socket.on('message', (data) => {
       if (data.sendTo.toString() === localStorage.getItem('id')) {
         this.updateConversation(data);
@@ -64,7 +64,7 @@ export default class Laayout extends Component {
                   <i className="fa fa-comments fa-2x  pull-right" aria-hidden="true"></i>
                 </div>
               </div>
-              <SearchBox onUpdate={this.onUpdate.bind(this)} />
+              <SearchBox newFriend={this.state.newFriend} onUpdate={this.onUpdate.bind(this)} />
               {renderIf(this.state.friendSearch && this.state.newFriends, <UserList newFriends={this.state.newFriends} onUpdate={this.onUpdate.bind(this)} />)}
               {renderIf(!this.state.friendSearch, <FriendList onUpdate={this.onUpdate.bind(this)} />)}
             </div>
@@ -128,6 +128,10 @@ export default class Laayout extends Component {
     }
     if (data.newFriends !== undefined) {
       this.setState({ newFriends: data.newFriends });
+    }
+    if (data.newFriend !== undefined) {
+      this.setState({ newFriend: true });
+      this.setState({ friendSearch: false });
     }
   }
 }

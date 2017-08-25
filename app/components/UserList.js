@@ -37,6 +37,7 @@ export default class UserList extends Component {
 
   onUpdate (data) {
     if (data.newFriend !== undefined) {
+      this.props.onUpdate({newFriend: true});
     }
   }
 }

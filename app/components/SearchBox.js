@@ -57,6 +57,9 @@ export default class SearchBox extends Component {
   }
 
   render() {
+    if (this.props.newFriend) {
+      this.state.value = '';
+    }
     return (
       <div className="row searchBox">
         <div className="col-sm-12 searchBox-inner">
