@@ -56,6 +56,7 @@ exports.import = function(req, res, next) {
           'username': 'user' + (counter.toString()), //faker.internet.userName(),
           'password': crypto.createHash('sha1').update(password).digest('hex'),
           'accessToken': '',
+          'imageUri': faker.image.image(),
           'role': 'user',
           'status': 1
         };

@@ -52,36 +52,8 @@ exports.login = function(req, res, next) {
   if (res.error || res.data) {
     return next(null, res);
   }
-  // Get Body Params
-  var record = req.body;
-  if (!record.username || !record.password) {
-    res.error = 401;
-    return next(null, res);
-  }
-  record.password = record.password; //create hash
-  // DB Query
-  User.findByLogin(record.username, record.password, function (err, user) {
-    // Check DB Error
-    if (err) {
-      res.error = 407;
-      return next(null, res);
-    }
-    // Check User
-    if (!user) {
-      res.error = 403;
-      return next(null, res);
-    }
-    // Check User Role
-    else if (!(user.role === 'user')) {
-      res.error = 405;
-      return next(null, res);
-    }
-    // Check User Status
-    else if (!user.status) {
-      res.error = 406;
-      return next(null, res);
-    }
-    else {
+  var user = res.user;
+  if (user) {
       var currentDate = (new Date()).valueOf().toString();
       var randomString = Math.random().toString();
       // Formulate accessToken
@@ -100,8 +72,11 @@ exports.login = function(req, res, next) {
         res.data = user;
         return next(null, res);
       });
-    }
-  });
+  }
+  else {
+    res.error = 409;
+    return next(null, res);
+  }
 };
 
 exports.logout = function(req, res, next) {
@@ -189,8 +164,6 @@ exports.update = function(req, res, next) {
     res.error = 401;
     return next(null, res);
   }
-  console.log (user._id);
-  console.log (record);
   if (user._id.toString() !== record._id.toString()) {
     // Set Response
     res.error = 405;

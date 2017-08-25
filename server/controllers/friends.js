@@ -49,7 +49,7 @@ exports.request = function(req, res, next) {
       });
     }
     if (addFriend) {
-      //user.friends.push({id: friend._id, status: 'pending'});
+      user.friends.push({id: friend._id, status: 'pending'});
     }
     // DB Query
     User.update(user._id, user, function (err, item) {

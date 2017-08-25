@@ -1,4 +1,5 @@
 var User = require('../models/user');
+var crypto = require('crypto');
 
 exports.isAuthenticated = function(req, res, next) {
   // If Response already set, goto next call
@@ -11,8 +12,9 @@ exports.isAuthenticated = function(req, res, next) {
     res.error = 401;
     return next(null, res);
   }
+  var password = crypto.createHash('sha1').update(record.password).digest('hex');
   // DB Query
-  User.findByLogin(record.username, record.password, function (err, user) {
+  User.findByLogin(record.username, password, function (err, user) {
     // Check DB Error
     if (err) {
       res.error = 407;
