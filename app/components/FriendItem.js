@@ -33,7 +33,7 @@ export default class FriendItem extends Component {
         this.setState({errorMessage: responseJson.data.message});
       }
       else {
-        console.log (responseJson);
+        //console.log (responseJson);
         this.props.friend.friendStatus = 'accept';
         this.props.onUpdate({friendAccepted: this.props.friend});
         //this.props.onUpdate({newFriends: responseJson.data});

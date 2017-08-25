@@ -76,8 +76,7 @@ export default class LoginForm extends Component {
   }
 
   render() {
-  var errorMessage = this.state.errorMessage ? <p className="alert-danger">{this.state.errorMessage}</p> : '';
-    console.log(errorMessage);
+    var errorMessage = this.state.errorMessage ? <p className="alert-danger">{this.state.errorMessage}</p> : '';
     return (
       <div className="container app">
         <div className="row app-one">

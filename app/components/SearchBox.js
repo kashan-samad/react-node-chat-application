@@ -46,7 +46,7 @@ export default class SearchBox extends Component {
         this.setState({errorMessage: responseJson.data.message});
       }
       else {
-        console.log (responseJson);
+        //console.log (responseJson);
         this.props.onUpdate({newFriends: responseJson.data});
         //console.log ('Success');
       }
