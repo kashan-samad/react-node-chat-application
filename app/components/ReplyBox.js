@@ -38,7 +38,6 @@ export default class ReplyBox extends Component {
         console.log (responseJson);
       }
       else {
-        console.log (responseJson);
         this.setState({comments: ''});
         this.props.onUpdate({newConversation: responseJson.data, friendId: this.props.friendId});
         //console.log ('Success');

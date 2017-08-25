@@ -30,10 +30,10 @@ export default class App extends Component {
   }
 
   onUpdate (data) {
-    if (data.isLoggedIn !== 'undefined') {
+    if (data.isLoggedIn !== undefined) {
       this.setState({ isLoggedIn: data.isLoggedIn });
     }
-    if (data.showRegister !== 'undefined') {
+    if (data.showRegister !== undefined) {
       this.setState({ showRegister: data.showRegister });
     }
   }

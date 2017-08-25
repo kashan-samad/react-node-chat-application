@@ -13,7 +13,7 @@ function renderIf(condition, content) {
 export default class FriendList extends Component {
   constructor(props) {
     super(props);
-    this.state = {friendData: '', friendId: ''};
+    this.state = {friendData: '', friendId: '', friendAccepted: ''};
 
     this.handleLoadFriends();
   }
@@ -60,10 +60,13 @@ export default class FriendList extends Component {
   }
   
   onUpdate (data) {
-    if (data.friendId !== 'undefined') {
+    if (data.friendId !== undefined) {
       this.setState({ friendId: data.friendId });
       this.props.onUpdate({friendId: data.friendId});
       //console.log (this.state.friendId);
+    }
+    if (data.friendAccepted !== undefined) {
+      this.handleLoadFriends();
     }
   }
 }

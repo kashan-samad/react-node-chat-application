@@ -9,9 +9,9 @@ module.exports = function(app) {
     var header = req.headers;
     var record = {entity: req.url, method: req.method, params: req.params, body: req.body};
     // Console Printing
-    console.log ('------------------------------');
+    /*console.log ('------------------------------');
     console.log ('NEW Service Called at %s', Date.now('H:i:s'));
-    console.log (req.method + ' ' + req.url + ' ');
+    console.log (req.method + ' ' + req.url + ' ');*/
     return next(null, res);
   });
 

@@ -221,6 +221,31 @@ exports.update = function(req, res, next) {
   });
 };
 
+exports.find = function(req, res, next) {
+  // If Response already set, goto next call
+  if (res.error || res.data) {
+    return next(null, res);
+  }
+  // Get Body Params
+  var record = req.body;
+  if (!record.username) {
+    res.error = 401;
+    return next(null, res);
+  }
+  // DB Query
+  User.findByUsername(record.username, function (err, result) {
+    // Check DB Error
+    if (err) {
+      res.error = 407;
+      return next(null, res);
+    }
+    // Set Response
+    res.error = false;
+    res.data = result;
+    return next(null, res);
+  });
+};
+
 exports.list = function(req, res, next) {
   // If Response already set, goto next call
   if (res.error || res.data) {
@@ -268,6 +293,10 @@ module.exports = function() {
   app.route('/:_id')
     .get(Auth.isAuthorized, exports.detail)
     .put(Auth.isAuthorized, exports.update);
+
+  // Find
+  app.route('/find')
+    .post(Auth.isAuthorized, exports.find);
 
   // List
   app.route('/')

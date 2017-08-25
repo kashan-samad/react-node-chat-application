@@ -20,7 +20,7 @@ function RegisterLink(props) {
 export default class LoginForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {isLoggedIn: false, username: 'kashan.samad', password: '123', errorMessage: ''};
+    this.state = {isLoggedIn: false, username: '', password: '', errorMessage: ''};
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);

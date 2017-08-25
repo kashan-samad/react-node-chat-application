@@ -31,6 +31,13 @@ exports.findById = function(id, callback) {
   });
 };
 
+exports.findByUsername = function(username, callback) {
+  var collection = db.get().collection(db_entity);
+  collection.find({username: username}).toArray(function (err, docs) {
+    callback(err, docs);
+  });
+};
+
 exports.findByLogin = function(username, password, callback) {
   var collection = db.get().collection(db_entity);
   collection.findOne({'username': username, 'password': password}, {_id: 1, name: 1, username: 1, role: 1, accessToken: 1, imageUri: 1, status: 1}, function (err, item) {

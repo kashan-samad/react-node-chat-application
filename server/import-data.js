@@ -45,21 +45,22 @@ exports.import = function(req, res, next) {
     }
     // Set Response
     res.error = false;
-    if (result.length < 200) {
+    if (result.length > 10) {
       var results = [];
-      var userCount = 10;
+      var addRecords = 10;
+      var counter = result.length;
       var count = 0;
-      for (var i=0; i<userCount; i++) {
-        password = faker.internet.password();
+      for (var i=0; i<addRecords; i++) {
+        password = '123'; //faker.internet.password();
         record = {'name': faker.name.findName(),
-          'username': faker.internet.userName(),
+          'username': 'user' + (counter.toString()), //faker.internet.userName(),
           'password': crypto.createHash('sha1').update(password).digest('hex'),
           'accessToken': '',
           'role': 'user',
           'status': 1
         };
         results.push(record);
-        console.log ('record: ' + results[count].name);
+        counter++;
         // DB Query
         User.create(record, function (err, item) {
           // Check DB Error
@@ -69,18 +70,10 @@ exports.import = function(req, res, next) {
             return next(null, res);
           }
           count++;
-          //console.log ('success - ' + record._id);
-          //console.log ('adding: ' + record.name);
-          //console.log ('count - ' + count);
-          //console.log ('userCount - ' + userCount);
-          if (count === userCount) {
+          if (count === addRecords) {
             res.data = results;
             return next(null, res);
           }
-          // Set Response
-          //res.error = false;
-          //res.data = {_id: record._id};
-          //return next(null, res);
         });
       }
     }

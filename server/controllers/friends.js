@@ -49,7 +49,7 @@ exports.request = function(req, res, next) {
       });
     }
     if (addFriend) {
-      user.friends.push({id: friend._id, status: 'pending'});
+      //user.friends.push({id: friend._id, status: 'pending'});
     }
     // DB Query
     User.update(user._id, user, function (err, item) {
@@ -257,8 +257,12 @@ exports.list = function(req, res, next) {
   friendFound = false;
   friends = '';
   friendsArray = [];
+  friendStatusArray = [];
   if (user.friends) {
     user.friends.forEach(function(f) {
+      if (f.status !== undefined) {
+        friendStatusArray[f.id] = f.status;
+      }
       friendsArray.push(f.status === undefined ? f : f.id);
     });
   }
@@ -273,6 +277,9 @@ exports.list = function(req, res, next) {
         }
         // Set Response
         res.error = false;
+        result.forEach(function(f) {
+          f.friendStatus = friendStatusArray[f._id];
+        });
         res.data = result;
         return next(null, res);
     });

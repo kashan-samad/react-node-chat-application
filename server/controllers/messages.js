@@ -229,7 +229,7 @@ exports.list = function(req, res, next) {
     return next(null, res);
   }
   friendFound = false;
-  messages = '';
+  messages = [];
   messagesArray = [];
   if (user.friends) {
     user.friends.forEach(function(f) {
@@ -239,7 +239,7 @@ exports.list = function(req, res, next) {
       }
     });
   }
-  if (friendFound && messages.length > 0) {
+  if (friendFound && messages) {
     messages.forEach(function(m) {
       messagesArray.push(m.status === undefined ? m : m.id);
     });
